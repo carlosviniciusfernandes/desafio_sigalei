@@ -7,7 +7,7 @@ query getRepoCommitInfoPaginated($cursor: String) {
         url
         object(expression: "master") {
             ... on Commit {
-                history(first:100, since: "2020-01-01T00:00:00Z", after: $cursor) {
+                history(first:100, since: "2020-07-01T00:00:00Z", after: $cursor) {
                     totalCount
                     pageInfo{
                         hasNextPage
