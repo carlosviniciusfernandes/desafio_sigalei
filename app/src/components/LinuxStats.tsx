@@ -16,7 +16,7 @@ type UserData = {
     deletions:number
 }   
 
-const Home = () => {
+const LinuxStats = () => {
     const [startDate, setStartDate] = useState(() => {
         return '2020-07-01T00:00:00'
     })
@@ -59,7 +59,7 @@ const Home = () => {
     });
     
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    if (error) return <p>Error :(, Algo não deu certo /o\ por favor verifique no console das ferramentas de desenvolvedor de seu navegador</p>;
     if (data.repository.object.hasOwnProperty('history')) {
         if(data.repository.object.history.pageInfo.hasNextPage && !dataStatus.loaded){
             fetchMore({
@@ -123,23 +123,21 @@ const Home = () => {
     }
 
     return (
-        <div>
-            <Grid container
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
-                <Grid item xs={12} style={{padding: "20px", textAlign:"center"}}>
-                    <DataPicker defaultDate={startDate} updateParent={(selectedDate:any) => setQueryDate(selectedDate)} />
-                    <Button variant="outlined" color="primary" disableElevation style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>reloadData()}>Buscar</Button>
-                </Grid>
-                <Grid item xs={12} sm={10} md={8} style={{padding: "20px"}}>
-                    <UsersTable users={parsedUserData} dataStatus={dataStatus} titleDate={startDate}/>
-                </Grid>
+        <Grid container
+            direction="row"
+            justify="center"
+            alignItems="center"
+        >
+            <Grid item xs={12} style={{padding: "20px", textAlign:"center"}}>
+                <DataPicker defaultDate={startDate} updateParent={(selectedDate:any) => setQueryDate(selectedDate)} />
+                <Button variant="outlined" color="primary" disableElevation style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>reloadData()}>Buscar</Button>
             </Grid>
-        </div>
+            <Grid item xs={12} sm={10} md={8} style={{padding: "20px"}}>
+                <UsersTable users={parsedUserData} dataStatus={dataStatus} titleDate={startDate}/>
+            </Grid>
+        </Grid>
     );
     
 }
 
-export default Home
+export default LinuxStats

@@ -1,42 +1,23 @@
 import React from 'react';
 import './App.css';
 
-import Home from './components/Home'
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import ApolloWrapper from './components/ApolloWrapper'
+import Auth from './components/Auth'
 import Nav from './components/layout/Nav'
 import Footer from './components/layout/Footer'
 
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-
-import { usertoken } from './userConfig'
-
-const httpLink = createHttpLink({
-  uri: 'https://api.github.com/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = usertoken
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
-
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <BrowserRouter>
         <Nav/>
-        <Home/>
+        <Switch>
+            <Route exact path='/' component={Auth}/>
+            <Route path='/:token' component={ApolloWrapper} />
+          </Switch>
         <Footer/>
-    </ApolloProvider>
-  );
+    </BrowserRouter>
+    );
 }
 
 export default App;
