@@ -6,7 +6,7 @@ import QueryTest from './components/QueryTest'
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { usertoken } from './config.default'
+import { usertoken } from './userConfig'
 
 const httpLink = createHttpLink({
   uri: 'https://api.github.com/graphql',
