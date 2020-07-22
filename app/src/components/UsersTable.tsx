@@ -60,7 +60,7 @@ type UserData = {
     setState(prev => {
       let state = Object.assign({}, prev)
       state.data = props.users.filter(user => {
-        return user.login != 'null'
+        return user.login !== 'null'
       })      
       return state    
     })

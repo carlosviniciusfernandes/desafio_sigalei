@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 
 import { Grid } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import UsersTable from './UsersTable'
+import DataPicker from './DataPicker'
 
 import { useQuery } from '@apollo/client'
 import { getRepoCommitInfoPaginated } from '../queries/queries'
@@ -15,6 +17,13 @@ type UserData = {
 }   
 
 const Home = () => {
+    const [startDate, setStartDate] = useState(() => {
+        return '2020-07-01T00:00:00'
+    })
+    const [queryDate, setQueryDate] = useState(() => {
+        return ''
+    })
+
     const [concatData, setConcatData] = useState(() => {
         return []
     })
@@ -30,8 +39,24 @@ const Home = () => {
         }]
         return usersCommitStats
     })
+    
+    const reloadData = () => {
+        setStartDate(queryDate)
+        setConcatData([])
+        setUsersParsedData([{
+            login:'null',
+            commits:0,
+            additions:0,
+            deletions:0
+        }])
+        setDataStatus({loaded:false, parsed:false})
+    }
 
-    const { loading, error, data, fetchMore } = useQuery(getRepoCommitInfoPaginated);
+    const { loading, error, data, fetchMore } = useQuery(getRepoCommitInfoPaginated,{
+        variables:{
+            from: startDate
+        }
+    });
     
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
@@ -41,7 +66,7 @@ const Home = () => {
                 variables: {
                   cursor: data.repository.object.history.pageInfo.endCursor
                 },
-                updateQuery: (previousResult, { fetchMoreResult }) => {
+                updateQuery: (previousResult:any, { fetchMoreResult }:any) => {
                     /** Workaround to prevent ocasional cached data been duplicated in the final data array **/
                     if(fetchMoreResult.repository.object.history.nodes.length > 100) return previousResult
                     
@@ -92,7 +117,7 @@ const Home = () => {
             }
             return null
         })           
-        console.log(usersCommitStats)
+        // console.log(usersCommitStats)
         setDataStatus({loaded:true, parsed:true})
         setUsersParsedData(usersCommitStats)
     }
@@ -104,6 +129,10 @@ const Home = () => {
                 justify="center"
                 alignItems="center"
             >
+                <Grid item xs={12} style={{padding: "20px", textAlign:"center"}}>
+                    <DataPicker defaultDate={startDate} updateParent={(selectedDate:string) => setQueryDate(selectedDate)} />
+                    <Button variant="outlined" color="primary" disableElevation style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>reloadData()}>Buscar</Button>
+                </Grid>
                 <Grid item xs={12} sm={10} md={8} style={{padding: "20px"}}>
                     <UsersTable users={parsedUserData} dataStatus={dataStatus}/>
                 </Grid>

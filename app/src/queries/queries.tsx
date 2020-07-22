@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
 const getRepoCommitInfoPaginated = gql`
-query getRepoCommitInfoPaginated($cursor: String) {
+query getRepoCommitInfoPaginated($from: GitTimestamp, $cursor: String) {
     repository(name: "linux", owner: "torvalds") {
         name
         url
         object(expression: "master") {
             ... on Commit {
-                history(first:100, since: "2020-07-01T00:00:00Z", after: $cursor) {
+                history(first:100, since: $from, after: $cursor) {
                     totalCount
                     pageInfo{
                         hasNextPage
