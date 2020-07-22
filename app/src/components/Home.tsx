@@ -21,7 +21,7 @@ const Home = () => {
         return '2020-07-01T00:00:00'
     })
     const [queryDate, setQueryDate] = useState(() => {
-        return ''
+        return new Date()
     })
 
     const [concatData, setConcatData] = useState(() => {
@@ -41,7 +41,7 @@ const Home = () => {
     })
     
     const reloadData = () => {
-        setStartDate(queryDate)
+        setStartDate(queryDate.toISOString())
         setConcatData([])
         setUsersParsedData([{
             login:'null',
@@ -130,11 +130,11 @@ const Home = () => {
                 alignItems="center"
             >
                 <Grid item xs={12} style={{padding: "20px", textAlign:"center"}}>
-                    <DataPicker defaultDate={startDate} updateParent={(selectedDate:string) => setQueryDate(selectedDate)} />
+                    <DataPicker defaultDate={startDate} updateParent={(selectedDate:any) => setQueryDate(selectedDate)} />
                     <Button variant="outlined" color="primary" disableElevation style={{marginLeft:"20px", marginTop:"20px"}} onClick={()=>reloadData()}>Buscar</Button>
                 </Grid>
                 <Grid item xs={12} sm={10} md={8} style={{padding: "20px"}}>
-                    <UsersTable users={parsedUserData} dataStatus={dataStatus}/>
+                    <UsersTable users={parsedUserData} dataStatus={dataStatus} titleDate={startDate}/>
                 </Grid>
             </Grid>
         </div>

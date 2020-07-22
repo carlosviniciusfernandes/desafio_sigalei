@@ -22,8 +22,10 @@ type UserData = {
 } 
 
 
- const MaterialTableDemo = (props:{users:UserData[], dataStatus:any}) => {
+ const MaterialTableDemo = (props:{users:UserData[], dataStatus:any, titleDate:string}) => {
   const [loaded, setLoaded] = React.useState(() => { return false })
+
+  const tableTitle = props.titleDate.split('T')[0]
 
   const theme = createMuiTheme({
     overrides: {
@@ -69,7 +71,7 @@ type UserData = {
   return (
     <ThemeProvider theme={theme}>
       <MaterialTable
-        title={"Contributors to Linux Kernel since 2020-07-01"}
+        title={"Contributors to Linux Kernel since "+tableTitle}
         columns={state.columns}
         data={state.data}
         isLoading={!loaded}
