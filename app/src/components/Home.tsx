@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
 
+import UsersTable from './UsersTable'
+
 import { useQuery } from '@apollo/client'
 import { getRepoCommitInfoPaginated } from '../queries/queries'
 
-const QueryTest = () => {
+type UserData = {
+    login:string,
+    commits:number,
+    additions:number,
+    deletions:number
+}   
+
+const Home = () => {
     const [concatData, setConcatData] = useState(() => {
         return []
     })
@@ -11,7 +20,7 @@ const QueryTest = () => {
         return {loaded:false, parsed:false}
     })
     const [parsedUserData, setUsersParsedData] = useState(() => {        
-        let usersCommitStats:{login:string, commits:number, additions:number, deletions:number}[] = [{
+        let usersCommitStats:UserData[] = [{
             login:'null',
             commits:0,
             additions:0,
@@ -88,15 +97,10 @@ const QueryTest = () => {
 
     return (
         <div>
-            just some jsx<br/>
-            {parsedUserData.map((user) => {
-                return  <div key={user.login}>
-                            <p><b>user</b>:{user.login} <b>commits:</b>{user.commits}  <b>additons:</b>{user.additions} <b>deletions</b>:{user.deletions} </p>
-                        </div>
-            })}
+            <UsersTable users={parsedUserData} dataStatus={dataStatus}/>
         </div>
     );
     
 }
 
-export default QueryTest
+export default Home

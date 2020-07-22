@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import QueryTest from './components/QueryTest'
+import Home from './components/Home'
 
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -31,7 +31,8 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div>
-        <QueryTest/>
+        <Home/>
+
       </div>
     </ApolloProvider>
   );
