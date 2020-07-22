@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { Grid } from '@material-ui/core';
+
 import UsersTable from './UsersTable'
 
 import { useQuery } from '@apollo/client'
@@ -97,7 +99,15 @@ const Home = () => {
 
     return (
         <div>
-            <UsersTable users={parsedUserData} dataStatus={dataStatus}/>
+            <Grid container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={12} sm={10} md={8} style={{padding: "20px"}}>
+                    <UsersTable users={parsedUserData} dataStatus={dataStatus}/>
+                </Grid>
+            </Grid>
         </div>
     );
     

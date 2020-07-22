@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 
 import Home from './components/Home'
+import Nav from './components/layout/Nav'
+import Footer from './components/layout/Footer'
 
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -30,10 +32,9 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div>
+        <Nav/>
         <Home/>
-
-      </div>
+        <Footer/>
     </ApolloProvider>
   );
 }

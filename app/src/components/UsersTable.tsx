@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable, { Column } from 'material-table';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 interface Row {
   login:string,
@@ -20,9 +21,29 @@ type UserData = {
   deletions:number
 } 
 
+
  const MaterialTableDemo = (props:{users:UserData[], dataStatus:any}) => {
-  // const x = [...users]
   const [loaded, setLoaded] = React.useState(() => { return false })
+
+  const theme = createMuiTheme({
+    overrides: {
+      MuiTableSortLabel: {
+        root: {
+          color: '#fff',
+          '&:hover': {
+            color: '#bbdefb',
+          },
+          '&$active': {
+            color: '#bbdefb',
+            '&& $icon': {
+              opacity: 1,
+              color: '#bbdefb'
+            },
+          },
+        },
+      },
+    },
+  });
 
   const [state, setState] = React.useState<TableState>({
     columns: [
@@ -46,11 +67,20 @@ type UserData = {
   }
 
   return (
-    <MaterialTable
-      title="Contributors to Linux Kernel since 2020-07-01"
-      columns={state.columns}
-      data={state.data}
-    />
+    <ThemeProvider theme={theme}>
+      <MaterialTable
+        title={"Contributors to Linux Kernel since 2020-07-01"}
+        columns={state.columns}
+        data={state.data}
+        isLoading={!loaded}
+        options={{
+          headerStyle: {
+            backgroundColor: '#01579b',
+            color: '#ffffff',
+          },
+        }}
+      />
+    </ThemeProvider>
   );
 }
 
